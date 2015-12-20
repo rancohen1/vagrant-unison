@@ -1,9 +1,9 @@
 module VagrantPlugins
   module Unison
     class ShellCommand
-      def initialize machine, paths, ssh_command
+      def initialize machine, folder_opts, ssh_command
         @machine = machine
-        @paths = paths
+        @folder_opts = folder_opts
         @ssh_command = ssh_command
       end
 
@@ -25,7 +25,7 @@ module VagrantPlugins
       def args
         [
           'unison',
-          @paths.host,
+          @folder_opts[:hostpath],
           @ssh_command.uri,
           batch_arg,
           terse_arg,
@@ -40,11 +40,11 @@ module VagrantPlugins
       end
 
       def ignore_arg
-        ['-ignore', %("#{@machine.config.sync.ignore}")] if @machine.config.sync.ignore
+       ['-ignore', %("Name {#{( (@folder_opts[:ignore] || []) + ['.vagrant']).join(",")}}")]
       end
 
       def repeat_arg
-        ['-repeat', @machine.config.sync.repeat] if repeat && @machine.config.sync.repeat
+        ['-repeat', @folder_opts[:repeat]] if repeat && @folder_opts[:repeat]
       end
 
       def terse_arg

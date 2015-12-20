@@ -1,9 +1,9 @@
 module VagrantPlugins
   module Unison
     class SshCommand
-      def initialize(machine, unison_paths)
+      def initialize(machine, folder_opts)
         @machine = machine
-        @unison_paths = unison_paths
+        @folder_opts = folder_opts
       end
 
       def command
@@ -20,7 +20,7 @@ module VagrantPlugins
         username = ssh_info[:username]
         host = ssh_info[:host]
 
-        "ssh://#{username}@#{host}/#{@unison_paths.guest}"
+        "ssh://#{username}@#{host}/#{@folder_opts[:guestpath]}"
       end
 
       private

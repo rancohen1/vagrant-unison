@@ -19,11 +19,6 @@ module VagrantPlugins
       to your Vagrant VM (local or on AWS). 
       DESC
 
-      config "sync" do
-        require_relative "config"
-        Config
-      end
-
       command "sync" do
         # Setup logging and i18n
         setup_logging
@@ -62,6 +57,11 @@ module VagrantPlugins
         #Return the command
         require_relative "command"
         CommandInteract
+      end
+
+      synced_folder "unison" do
+          require_relative "synced_folder"
+          SyncedFolder
       end
 
       # This initializes the internationalization strings.

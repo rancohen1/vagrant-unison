@@ -1,19 +1,19 @@
+require "vagrant"
 module VagrantPlugins
   module Unison
     module UnisonSync
+      include Vagrant::Action::Builtin::MixinSyncedFolders
       def execute_sync_command(machine)
-        unison_paths = UnisonPaths.new(@env, machine)
-        guest_path = unison_paths.guest
-        host_path = unison_paths.host
+        folder_opts = synced_folders(machine)[:unison].values.first
 
-        @env.ui.info "Unisoning changes from {host}::#{host_path} --> {guest VM}::#{guest_path}"
+        machine.ui.info "Unisoning changes from {host}::#{folder_opts[:hostpath]} --> {guest VM}::#{folder_opts[:guestpath]}"
 
         # Create the guest path
-        machine.communicate.sudo("mkdir -p '#{guest_path}'")
-        machine.communicate.sudo("chown #{machine.ssh_info[:username]} '#{guest_path}'")
+        machine.communicate.sudo("mkdir -p '#{folder_opts[:guestpath]}'")
+        machine.communicate.sudo("chown #{machine.ssh_info[:username]} '#{folder_opts[:guestpath]}'")
 
-        ssh_command = SshCommand.new(machine, unison_paths)
-        shell_command = ShellCommand.new(machine, unison_paths, ssh_command)
+        ssh_command = SshCommand.new(machine, folder_opts)
+        shell_command = ShellCommand.new(machine, folder_opts, ssh_command)
 
         yield shell_command
       end
