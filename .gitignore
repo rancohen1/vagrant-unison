@@ -10,7 +10,6 @@ Gemfile.lock
 
 # Vagrant
 .vagrant
-Vagrantfile
 !example_box/Vagrantfile
 
 # IDEs
