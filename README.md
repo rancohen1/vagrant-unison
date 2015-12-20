@@ -20,14 +20,11 @@ to your Vagrant VM (local or on AWS).  Under the covers it uses [Unison](http://
 $ vagrant plugin install vagrant-unison
 ```
 1. After installing, edit your Vagrantfile and add a configuration directive similar to the below:
+**NOTE:** This works with only one synced folder for now.
 ```
 Vagrant.configure("2") do |config|
   config.vm.box = "dummy"
-
-  config.sync.host_folder = "src/"  #relative to the folder your Vagrantfile is in
-  config.sync.guest_folder = "src/" #relative to the vagrant home folder -> /home/vagrant
-  config.sync.ignore = "Name {.idea,.DS_Store}"
-
+  config.vm.synced_folder '.', '/vagrant', type: "unison", repeat: 2
 end
 ```
 1. Start up your starting your vagrant box as normal (eg: `vagrant up`)
