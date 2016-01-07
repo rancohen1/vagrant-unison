@@ -105,24 +105,18 @@ module VagrantPlugins
         with_target_vms do |machine|
           guest_path = synced_folders(machine)[:unison].values.first
 
-          if Vagrant::Util::Platform.windows?
-            command = "rm -rf ~/.unison/*"
-          elsif Vagrant::Utile::Platform.darwin?
+          if Vagrant::Util::Platform.darwin?
             command = "rm -rf ~/Library/'Application Support'/Unison/*"
           else 
-            machine.ui.error "Cleanup available only on windows or mac"
+            command = "find ~/.unison -type f -not -name *.prf -print0 | xargs -0 rm -rf"
           end
 
           machine.ui.info "Running #{command} on host"
           system(command)
 
-          command = "rm -rf #{guest_path}"
-          machine.ui.info "Running #{command} on guest VM"
-          machine.communicate.sudo(command)
-
           command = "rm -rf ~/.unison"
           machine.ui.info "Running #{command} on guest VM"
-          machine.communicate.sudo(command)
+          machine.communicate.execute(command)
         end
 
         0
