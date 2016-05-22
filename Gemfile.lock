@@ -1,0 +1,38 @@
+PATH
+  remote: .
+  specs:
+    vagrant-unison (0.1.1)
+      listen (>= 0.7.3)
+      rb-fsevent (~> 0.9)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.1.3)
+    ffi (1.9.10)
+    listen (3.0.5)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+    rake (10.4.2)
+    rb-fsevent (0.9.6)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
+    rspec-core (2.12.2)
+    rspec-expectations (2.12.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.12.2)
+    vagrant (1.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rake
+  rspec-core (~> 2.12.2)
+  rspec-expectations (~> 2.12.1)
+  rspec-mocks (~> 2.12.1)
+  vagrant (< 1.8)
+  vagrant-unison!
+
+BUNDLED WITH
+   1.11.2
